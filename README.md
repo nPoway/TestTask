@@ -70,7 +70,7 @@ If the user token becomes invalid, the app will attempt to fetch a new token aut
 Any server-side errors (such as invalid user data or an existing user) will be displayed in the UI.
 
 ## API Documentation
-The app communicates with the following API: [API Docs](https://frontend-test-assignment-api.abz.agency/api/v1).
+The app communicates with the following API: [API Docs](https://openapi_apidocs.abz.dev/frontend-test-assignment-v1).
 
 - **GET /users**: Fetches a list of users.
 - **POST /users**: Registers a new user with a photo.
