@@ -34,7 +34,6 @@ After that, open the .xcworkspace file, not the .xcodeproj.
 ### 2. **Improve Explanation on Code Structure**
 Since you have a clean MVVM structure with network services and extensions, it would be helpful to give an overview of the structure in the README. This could make it easier for others to navigate and understand how to make changes.
 
-markdown
 
 ## Project Structure
 The project follows the **MVVM (Model-View-ViewModel)** architecture pattern for better separation of concerns and testability. The main folders are:
@@ -52,7 +51,8 @@ The network layer is abstracted for reuse and maintains separation from the UI.
 Ensure you have a stable internet connection, as the app requires internet to make API requests.
 Run the project by selecting your target device or simulator and pressing Cmd + R.
 The app supports iOS devices and simulators starting from iOS 16.0.
-Special Configuration
+
+## Special Configuration
 
 The app requires permission to access the camera for uploading user profile pictures. Make sure to grant the necessary permissions when prompted. Additionally, ensure your device has a stable internet connection to handle API requests.
 
@@ -60,13 +60,13 @@ The app requires permission to access the camera for uploading user profile pict
 
 Here are some common issues that might arise and their possible solutions:
 
-No internet connection:
+- **No internet connection**:
 The app relies on network requests for fetching and registering users. If there's no network connection, a "No Connection" screen will appear. Please ensure you are connected to the internet.
-Camera permissions:
+- **Camera permissions**:
 If camera access is not granted, the app will not be able to capture photos for user registration. You can enable camera access in the device's settings.
-Token expiration during registration:
+- **Token expiration during registration**:
 If the user token becomes invalid, the app will attempt to fetch a new token automatically and retry the registration process.
-Server-side errors:
+- **Server-side errors**:
 Any server-side errors (such as invalid user data or an existing user) will be displayed in the UI.
 
 ## API Documentation
@@ -86,8 +86,7 @@ While unit tests have not been included in the current implementation, the use o
 
 ## Development Time
 
-The project took approximately 12 hours to complete.
-The most challenging part was working with the Network framework as I didn't have much prior experience with it.
+The project took approximately 12 hours to complete. The most challenging part was working with the Network framework as I didn't have much prior experience with it.
 
 ## Challenges and Improvements
 One of the main challenges was working with the **Network** framework, as it was new. However, I was able to manage token refresh logic using a custom **TokenManager**.
