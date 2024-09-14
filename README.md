@@ -24,9 +24,9 @@ Build the project using Cmd + B or click on the Build button in Xcode.
 
 ## Installation
 If the project has dependencies managed via CocoaPods, install them using:
-
+```bash
 pod install
-
+```
 After that, open the .xcworkspace file, not the .xcodeproj.
 
 **If no third-party libraries are used**, simply mention that the project uses only native iOS libraries.
