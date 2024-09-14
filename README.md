@@ -22,6 +22,31 @@ To get the project up and running, you need:
 Open the TestTask.xcodeproj file in Xcode.
 Build the project using Cmd + B or click on the Build button in Xcode.
 
+## Installation
+If the project has dependencies managed via CocoaPods, install them using:
+
+pod install
+
+After that, open the .xcworkspace file, not the .xcodeproj.
+
+**If no third-party libraries are used**, simply mention that the project uses only native iOS libraries.
+
+### 2. **Improve Explanation on Code Structure**
+Since you have a clean MVVM structure with network services and extensions, it would be helpful to give an overview of the structure in the README. This could make it easier for others to navigate and understand how to make changes.
+
+markdown
+
+## Project Structure
+The project follows the **MVVM (Model-View-ViewModel)** architecture pattern for better separation of concerns and testability. The main folders are:
+
+- **Model**: Contains the data structures like `User`, `Position`, etc.
+- **ViewModel**: Handles the business logic and networking for the `View`.
+- **View**: Includes `ViewControllers` for different screens such as `SignUpViewController`, `UsersViewController`, and custom `UITableViewCell` subclasses.
+- **Network**: Contains services for handling networking (`RegistrationService`, `UserService`, etc.) and the `TokenManager` for handling token refresh logic.
+- **Extensions**: Helpful extensions to enhance `UIKit` components such as `UIFont`, `UIImage`, and `UITextField`.
+
+The network layer is abstracted for reuse and maintains separation from the UI.
+
 ## Running the Project
 
 Ensure you have a stable internet connection, as the app requires internet to make API requests.
@@ -44,11 +69,36 @@ If the user token becomes invalid, the app will attempt to fetch a new token aut
 Server-side errors:
 Any server-side errors (such as invalid user data or an existing user) will be displayed in the UI.
 
-## Development Time and Challenges
+## API Documentation
+The app communicates with the following API: [API Docs](https://frontend-test-assignment-api.abz.agency/api/v1).
+
+- **GET /users**: Fetches a list of users.
+- **POST /users**: Registers a new user with a photo.
+- **GET /positions**: Fetches a list of available positions.
+
+ ## Unit Testing
+While unit tests have not been included in the current implementation, the use of the **MVVM** pattern ensures that adding tests would be straightforward. Future versions of the app could include tests for:
+
+- Testing ViewModels to ensure business logic is separated.
+- Testing network requests using mock data.
+
+
+
+## Development Time
 
 The project took approximately 12 hours to complete.
 The most challenging part was working with the Network framework as I didn't have much prior experience with it.
-Contribution Guidelines
+
+## Challenges and Improvements
+One of the main challenges was working with the **Network** framework, as it was new. However, I was able to manage token refresh logic using a custom **TokenManager**.
+
+### Potential Improvements:
+- Adding **unit tests** for the ViewModels and network services.
+- Adding **UI tests** to ensure proper navigation between the views.
+- Implementing **loading spinners** when fetching data from the API.
+
+
+## Contribution Guidelines
 
 This is a test assignment, so contributions are not required at this time. However, if you want to explore the code or report any issues, feel free to clone the repository and submit issues or pull requests.
 
