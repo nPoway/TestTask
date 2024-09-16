@@ -1,9 +1,9 @@
 import UIKit
 
-class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
-
+class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, UITextFieldDelegate {
+    
     // MARK: - Properties
-
+    
     private let viewModel = SignUpViewModel()
     
     // MARK: - UI Components
@@ -83,7 +83,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-   
+    
     private var selectedPosition: String? {
         didSet {
             updateRadioButtons()
@@ -91,7 +91,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     private var selectedPhoto: UIImage?
-
+    
     // MARK: - Lifecycle
     
     override func viewDidLoad() {
@@ -101,10 +101,14 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         setupUI()
         bindViewModel()
         viewModel.fetchPositions()
+        
+        nameTextField.delegate = self
+        emailTextField.delegate = self
+        phoneTextField.delegate = self
     }
     
     // MARK: - Setup Methods
-
+    
     private func setupScrollView() {
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         contentView.translatesAutoresizingMaskIntoConstraints = false
@@ -124,7 +128,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
         ])
     }
-
+    
     private func setupUI() {
         view.backgroundColor = .white
         contentView.addSubview(headerLabel)
@@ -145,62 +149,62 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         signUpButton.addTarget(self, action: #selector(signUpButtonTapped), for: .touchUpInside)
         uploadButton.addTarget(self, action: #selector(uploadButtonTapped), for: .touchUpInside)
     }
-
+    
     private func setupLayout() {
         NSLayoutConstraint.activate([
-                    headerLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
-                    headerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                    headerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-                    headerLabel.heightAnchor.constraint(equalToConstant: 56),
-                    
-                    nameTextField.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 30),
-                    nameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-                    nameTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-                    nameTextField.heightAnchor.constraint(equalToConstant: 56),
-                    
-                    emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 30),
-                    emailTextField.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
-                    emailTextField.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
-                    emailTextField.heightAnchor.constraint(equalToConstant: 56),
-                    
-                    phoneTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
-                    phoneTextField.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
-                    phoneTextField.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
-                    phoneTextField.heightAnchor.constraint(equalToConstant: 56),
-                    
-                    phoneFormatLabel.topAnchor.constraint(equalTo: phoneTextField.bottomAnchor, constant: 5),
-                    phoneFormatLabel.leadingAnchor.constraint(equalTo: phoneTextField.leadingAnchor, constant: 15),
-                    phoneFormatLabel.trailingAnchor.constraint(equalTo: phoneTextField.trailingAnchor),
-                    
-                    selectPositionLabel.topAnchor.constraint(equalTo: phoneFormatLabel.bottomAnchor, constant: 35),
-                    selectPositionLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
-                    
-                    positionStackView.topAnchor.constraint(equalTo: selectPositionLabel.bottomAnchor, constant: 30),
-                    positionStackView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
-                    positionStackView.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
-                    
-                    uploadContainerView.topAnchor.constraint(equalTo: positionStackView.bottomAnchor, constant: 35),
-                    uploadContainerView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
-                    uploadContainerView.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
-                    uploadContainerView.heightAnchor.constraint(equalToConstant: 50),
-                    
-                    uploadLabel.leadingAnchor.constraint(equalTo: uploadContainerView.leadingAnchor, constant: 15),
-                    uploadLabel.centerYAnchor.constraint(equalTo: uploadContainerView.centerYAnchor),
-                    
-                    uploadButton.trailingAnchor.constraint(equalTo: uploadContainerView.trailingAnchor, constant: -25),
-                    uploadButton.centerYAnchor.constraint(equalTo: uploadContainerView.centerYAnchor),
-                    
-                    errorLabel.topAnchor.constraint(equalTo: uploadContainerView.bottomAnchor, constant: 5),
-                    errorLabel.leadingAnchor.constraint(equalTo: uploadContainerView.leadingAnchor),
-                    
-                    signUpButton.topAnchor.constraint(equalTo: uploadContainerView.bottomAnchor, constant: 40),
-                    signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-                    signUpButton.heightAnchor.constraint(equalToConstant: 50),
-                    signUpButton.widthAnchor.constraint(equalToConstant: 140),
-                    signUpButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
-                ])
+            headerLabel.topAnchor.constraint(equalTo: contentView.safeAreaLayoutGuide.topAnchor),
+            headerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            headerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
+            headerLabel.heightAnchor.constraint(equalToConstant: 56),
+            
+            nameTextField.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 30),
+            nameTextField.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+            nameTextField.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+            nameTextField.heightAnchor.constraint(equalToConstant: 56),
+            
+            emailTextField.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 30),
+            emailTextField.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            emailTextField.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            emailTextField.heightAnchor.constraint(equalToConstant: 56),
+            
+            phoneTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
+            phoneTextField.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            phoneTextField.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            phoneTextField.heightAnchor.constraint(equalToConstant: 56),
+            
+            phoneFormatLabel.topAnchor.constraint(equalTo: phoneTextField.bottomAnchor, constant: 5),
+            phoneFormatLabel.leadingAnchor.constraint(equalTo: phoneTextField.leadingAnchor, constant: 15),
+            phoneFormatLabel.trailingAnchor.constraint(equalTo: phoneTextField.trailingAnchor),
+            
+            selectPositionLabel.topAnchor.constraint(equalTo: phoneFormatLabel.bottomAnchor, constant: 35),
+            selectPositionLabel.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            
+            positionStackView.topAnchor.constraint(equalTo: selectPositionLabel.bottomAnchor, constant: 30),
+            positionStackView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            positionStackView.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            
+            uploadContainerView.topAnchor.constraint(equalTo: positionStackView.bottomAnchor, constant: 35),
+            uploadContainerView.leadingAnchor.constraint(equalTo: nameTextField.leadingAnchor),
+            uploadContainerView.trailingAnchor.constraint(equalTo: nameTextField.trailingAnchor),
+            uploadContainerView.heightAnchor.constraint(equalToConstant: 50),
+            
+            uploadLabel.leadingAnchor.constraint(equalTo: uploadContainerView.leadingAnchor, constant: 15),
+            uploadLabel.centerYAnchor.constraint(equalTo: uploadContainerView.centerYAnchor),
+            
+            uploadButton.trailingAnchor.constraint(equalTo: uploadContainerView.trailingAnchor, constant: -25),
+            uploadButton.centerYAnchor.constraint(equalTo: uploadContainerView.centerYAnchor),
+            
+            errorLabel.topAnchor.constraint(equalTo: uploadContainerView.bottomAnchor, constant: 5),
+            errorLabel.leadingAnchor.constraint(equalTo: uploadContainerView.leadingAnchor),
+            
+            signUpButton.topAnchor.constraint(equalTo: uploadContainerView.bottomAnchor, constant: 40),
+            signUpButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            signUpButton.heightAnchor.constraint(equalToConstant: 50),
+            signUpButton.widthAnchor.constraint(equalToConstant: 140),
+            signUpButton.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
+        ])
     }
-
+    
     // MARK: - ViewModel Binding
     
     private func bindViewModel() {
@@ -216,10 +220,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         viewModel.email = emailTextField.text
         viewModel.phone = phoneTextField.text
         viewModel.selectedPositionID = viewModel.getPositionID(for: selectedPosition)
-
+        
         var errors = viewModel.validateFields()
         handleValidationErrors(errors)
-
+        
         if selectedPhoto == nil {
             errors.append(.photoMissing)
             uploadContainerView.layer.borderColor = UIColor.red.cgColor
@@ -230,10 +234,10 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             uploadContainerView.layer.borderWidth = 1.0
             errorLabel.isHidden = true
         }
-
+        
         return errors
     }
-
+    
     // MARK: - Radio Buttons Setup
     
     private func setupRadioButtons() {
@@ -241,7 +245,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             addRadioButton(title: position.name, isSelected: selectedPosition == position.name)
         }
     }
-
+    
     private func addRadioButton(title: String, isSelected: Bool = false) {
         var config = UIButton.Configuration.plain()
         config.title = title
@@ -263,13 +267,13 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         button.addTarget(self, action: #selector(selectPosition), for: .touchUpInside)
         positionStackView.addArrangedSubview(button)
     }
-
+    
     @objc private func selectPosition(sender: UIButton) {
         guard let title = sender.configuration?.title else { return }
         selectedPosition = title
         updateRadioButtons()
     }
-
+    
     private func updateRadioButtons() {
         for case let button as UIButton in positionStackView.arrangedSubviews {
             let isSelected = button.configuration?.title == selectedPosition
@@ -280,7 +284,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     }
     
     // MARK: - Upload Photo
-
+    
     @objc
     private func uploadButtonTapped() {
         let alert = UIAlertController(title: "Choose how you want to add a photo", message: nil, preferredStyle: .actionSheet)
@@ -301,9 +305,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         
         present(alert, animated: true, completion: nil)
     }
-
+    
     // MARK: - Present Image Picker
-
+    
     private func presentImagePicker(sourceType: UIImagePickerController.SourceType) {
         if UIImagePickerController.isSourceTypeAvailable(sourceType) {
             let imagePicker = UIImagePickerController()
@@ -315,9 +319,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             print("\(sourceName) not available")
         }
     }
-
+    
     // MARK: - UIImagePickerControllerDelegate
-
+    
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.originalImage] as? UIImage {
             selectedPhoto = image
@@ -327,14 +331,14 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         }
         dismiss(animated: true, completion: nil)
     }
-
+    
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
         dismiss(animated: true, completion: nil)
     }
-
+    
     
     // MARK: - Update Photo Selection UI
-
+    
     private func updatePhotoSelectionUI() {
         if selectedPhoto == nil {
             uploadContainerView.layer.borderColor = UIColor.red.cgColor
@@ -346,32 +350,32 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             errorLabel.isHidden = true
         }
     }
-
-
+    
+    
     // MARK: - Registration Request Handling
-
+    
     @objc private func signUpButtonTapped() {
         let errors = validateForm()
-
+        
         guard errors.isEmpty, selectedPhoto != nil else {
             return
         }
-
+        
         sendRegistrationRequest()
     }
-
+    
     private func sendRegistrationRequest() {
         guard let photoData = selectedPhoto?.jpegData(compressionQuality: 0.8) else {
             return
         }
-
+        
         viewModel.registerUser(photoData: photoData) { [weak self] result in
             DispatchQueue.main.async {
                 self?.handleRegistrationResult(result)
             }
         }
     }
-
+    
     private func handleRegistrationResult(_ result: Result<RegistrationResponse, Error>) {
         switch result {
         case .success(let response):
@@ -386,9 +390,9 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             print("Registration error: \(error.localizedDescription)")
         }
     }
-
+    
     // MARK: - Error Handling
-
+    
     private func handleValidationErrors(_ errors: [ValidationError]) {
         resetTextFieldBorders()
         
@@ -407,16 +411,16 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             }
         }
     }
-
+    
     private func handlePhotoValidationError(message: String) {
         uploadContainerView.layer.borderColor = UIColor.red.cgColor
         uploadContainerView.layer.borderWidth = 1.0
         errorLabel.text = message
         errorLabel.isHidden = false
     }
-
+    
     // MARK: - Helper Methods
-
+    
     private static func createTextField(placeholder: String, autocapitalization: UITextAutocapitalizationType = .sentences) -> UITextField {
         let textField = UITextField()
         textField.borderStyle = .roundedRect
@@ -431,7 +435,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         textField.translatesAutoresizingMaskIntoConstraints = false
         return textField
     }
-
+    
     private static func createLabel(text: String, fontSize: CGFloat, color: UIColor = .black) -> UILabel {
         let label = UILabel()
         label.text = text
@@ -440,7 +444,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
-
+    
     private func resetTextFieldBorders() {
         [nameTextField, emailTextField, phoneTextField].forEach { textField in
             textField.layer.borderColor = UIColor.clear.cgColor
@@ -451,7 +455,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             subview.removeFromSuperview()
         }
     }
-
+    
     private func setPositionInvalid(message: String) {
         let errorLabel = UILabel()
         errorLabel.text = message
@@ -460,13 +464,13 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         errorLabel.translatesAutoresizingMaskIntoConstraints = false
         errorLabel.tag = 999
         contentView.addSubview(errorLabel)
-
+        
         NSLayoutConstraint.activate([
             errorLabel.topAnchor.constraint(equalTo: selectPositionLabel.bottomAnchor, constant: 5),
             errorLabel.leadingAnchor.constraint(equalTo: selectPositionLabel.leadingAnchor)
         ])
     }
-
+    
     private func setTextFieldInvalid(textField: UITextField, message: String) {
         textField.layer.borderColor = UIColor.red.cgColor
         textField.layer.borderWidth = 1.0
@@ -475,7 +479,7 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
         if textField == phoneTextField {
             phoneFormatLabel.isHidden = true
         }
-       
+        
         let errorLabel = UILabel()
         errorLabel.text = message
         errorLabel.textColor = .red
@@ -489,16 +493,21 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
             errorLabel.leadingAnchor.constraint(equalTo: textField.leadingAnchor)
         ])
     }
-
+    
     private func showSuccessScreen() {
         let successVC = SuccessViewController()
         successVC.modalPresentationStyle = .fullScreen
         present(successVC, animated: true, completion: nil)
     }
-
+    
     private func showErrorScreen() {
         let errorVC = ErrorViewController()
         errorVC.modalPresentationStyle = .fullScreen
         present(errorVC, animated: true, completion: nil)
+    }
+    //    MARK: - TextField Delegates
+    
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        view.endEditing(true)
     }
 }
