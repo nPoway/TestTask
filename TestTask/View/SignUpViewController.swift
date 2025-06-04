@@ -509,5 +509,6 @@ class SignUpViewController: UIViewController, UIImagePickerControllerDelegate, U
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         view.endEditing(true)
+        return true
     }
 }
